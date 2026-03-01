@@ -20,6 +20,7 @@ from bot.helper.telegram_helper.message_utils import sendCustomMsg, editReplyMar
 from bot.helper.ext_utils.fs_utils import clean_unwanted, is_archive, get_base_name
 from bot.helper.ext_utils.bot_utils import get_readable_file_size, is_telegram_link, is_url, sync_to_async, download_image_url
 from bot.helper.ext_utils.leech_utils import get_audio_thumb, get_media_info, get_document_type, take_ss, get_ss, get_mediainfo_link, format_filename
+from bot.helper.ext_utils.ffmpeg import take_ss
 
 LOGGER = getLogger(__name__)
 getLogger("pyrogram").setLevel(ERROR)
