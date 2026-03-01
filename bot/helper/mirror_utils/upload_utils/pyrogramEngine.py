@@ -21,6 +21,7 @@ from bot.helper.ext_utils.fs_utils import clean_unwanted, is_archive, get_base_n
 from bot.helper.ext_utils.bot_utils import get_readable_file_size, is_telegram_link, is_url, sync_to_async, download_image_url
 from bot.helper.ext_utils.leech_utils import get_audio_thumb, get_media_info, get_document_type, take_ss, get_ss, get_mediainfo_link, format_filename
 from bot.helper.ext_utils.ffmpeg import take_ss
+from bot.helper.utils.gk_utils import process_caps
 
 LOGGER = getLogger(__name__)
 getLogger("pyrogram").setLevel(ERROR)
@@ -200,10 +201,33 @@ class TgUploader:
 
     async def __prepare_file(self, prefile_, dirpath):
         try:
+            # Original filename formatting
             file_, cap_mono = await format_filename(prefile_, self.__user_id, dirpath)
+
+            # ===== GK AUTO RENAME ADD =====
+            try:
+                gk_cap, new_name = await process_caps(self.__listener, file_, self.__up_path)
+
+                if new_name and new_name != file_:
+                    new_path = ospath.join(dirpath, new_name)
+
+                    if self.__listener.seed and not self.__listener.newDir and not dirpath.endswith("/splited_files_mltb"):
+                        dirpath = f'{dirpath}/copied_mltb'
+                        await makedirs(dirpath, exist_ok=True)
+                        new_path = ospath.join(dirpath, new_name)
+                        self.__up_path = await copy(self.__up_path, new_path)
+                    else:
+                        await aiorename(self.__up_path, new_path)
+                        self.__up_path = new_path
+
+                    file_ = new_name
+            except Exception as e:
+                LOGGER.error(f"GK Rename Error: {e}")
+
         except Exception as err:
             await self.__listener.onUploadError(f'Error in Format Filename : {err}')
             raise
+
         if prefile_ != file_:
             if self.__listener.seed and not self.__listener.newDir and not dirpath.endswith("/splited_files_mltb"):
                 dirpath = f'{dirpath}/copied_mltb'
