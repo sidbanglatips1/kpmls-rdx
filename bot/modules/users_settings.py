@@ -12,7 +12,7 @@ from pyrogram.filters import create
 from pyrogram.types import CallbackQuery
 from pyrogram.handlers import MessageHandler
 
-from bot.helper.ext_utils.status_utils import get_readable_file_size
+from bot.helper.ext_utils.bot_utils import get_readable_file_size
 from .. import auth_chats, excluded_extensions, sudo_users, user_dict, logger, bot_loop, PREMIUM_FEATURES, MIN_SAMPLE_IMAGE, MAX_SAMPLE_IMAGE, MIN_SAMPLE_VIDEO, MAX_SAMPLE_VIDEO
 from ..core.config_manager import Config
 from ..core.tg_client import TgClient
