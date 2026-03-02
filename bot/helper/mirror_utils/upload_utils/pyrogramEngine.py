@@ -16,6 +16,7 @@ from natsort import natsorted
 from bot import config_dict, user_data, GLOBAL_EXTENSION_FILTER, bot, user, IS_PREMIUM_USER
 from bot.helper.ext_utils.bot_utils import sync_to_async
 from bot.helper.ext_utils.leech_utils import get_media_info, get_document_type, format_filename
+from bot.helper.ext_utils.leech_utils import take_ss
 LOGGER = getLogger(__name__)
 getLogger("pyrogram").setLevel(ERROR)
 
