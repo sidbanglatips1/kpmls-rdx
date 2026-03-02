@@ -3,8 +3,8 @@ def get_readable_file_size(size):
         return "0B"
     power = 2**10
     n = 0
-    power_labels = {0: '', 1: 'K', 2: 'M', 3: 'G', 4: 'T'}
-    while size >= power and n < 4:
+    units = ["B", "KB", "MB", "GB", "TB", "PB"]
+    while size >= power and n < len(units) - 1:
         size /= power
         n += 1
-    return f"{round(size, 2)} {power_labels[n]}B"
+    return f"{round(size, 2)} {units[n]}"
